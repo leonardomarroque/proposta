@@ -1,5 +1,6 @@
 package org.br.mineradora.controller;
 
+import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -9,13 +10,18 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 import org.br.mineradora.dto.ProposalDetailsDTO;
 import org.br.mineradora.service.ProposalService;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/api/proposal")
+@Authenticated
 public class ProposalController {
 
     private final Logger LOG = LoggerFactory.getLogger(ProposalController.class);
+
+    @Inject
+    JsonWebToken jsonWebToken;
 
     @Inject
     ProposalService proposalService;
@@ -32,7 +38,7 @@ public class ProposalController {
     }
 
     @POST
-    @RolesAllowed({"proposal-customer"})
+    @RolesAllowed("proposal-customer")
     public Response createProposal (ProposalDetailsDTO proposalDetails, @Context UriInfo uriInfo) {
 
         LOG.info("-- Receiving purchase proposal --");

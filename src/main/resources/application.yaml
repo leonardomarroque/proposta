@@ -1,4 +1,4 @@
-# configure your datasource
+# datasource configs
 quarkus:
   datasource:
     db-kind: postgresql
@@ -10,9 +10,16 @@ quarkus:
     database:
       generation: update
 
-# configure quarkus http
+# quarkus http configs
   http:
     port: 8091
+
+# keycloak security configs
+  oidc:
+    auth-server-url: http://localhost:8180/realms/quarkus
+    client-id: backend-service
+    credentials:
+      secret: secret
 
 # Kafka configs
 mp:
